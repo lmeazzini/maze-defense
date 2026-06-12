@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="EnemyData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/enemy_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = &"armored"
+name_key = &"ENEMY_ARMORED"
+max_hp = 80.0
+speed = 80.0
+armor = 0.7
+gold_reward = 10
+lives_cost = 1
+is_boss = false
+placeholder_color = Color(0.62, 0.64, 0.7, 1)
+radius = 14.0

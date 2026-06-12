@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="EnemyData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/enemy_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = &"tank"
+name_key = &"ENEMY_TANK"
+max_hp = 160.0
+speed = 56.0
+armor = 0.1
+gold_reward = 12
+lives_cost = 2
+is_boss = false
+placeholder_color = Color(0.55, 0.3, 0.2, 1)
+radius = 18.0

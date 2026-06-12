@@ -4,14 +4,16 @@ extends Node2D
 ## se o alvo morre no caminho, segue até a última posição e expira.
 ## Hit por distância-do-frame: imune a tunneling a 3x de velocidade.
 
+@export var speed: float = 520.0
+@export var color := Color(0.9, 0.9, 0.6)
+@export var radius: float = 4.0
+
 var _target: Enemy
 var _last_target_pos: Vector2
 var _damage: float
 var _type: TowerData.DamageType
 var _splash_radius: float = 0.0
 var _registry: EnemyRegistry
-var _speed: float = 520.0
-var _color := Color(0.9, 0.9, 0.6)
 
 
 func launch(
@@ -30,9 +32,11 @@ func launch(
 
 
 func _physics_process(delta: float) -> void:
-	if is_instance_valid(_target) and _target.is_alive():
+	# AoE (canhão) mira no chão: trava na posição do alvo no momento do disparo.
+	# Tiro único (flecha) persegue o alvo enquanto ele viver.
+	if _splash_radius == 0.0 and is_instance_valid(_target) and _target.is_alive():
 		_last_target_pos = _target.position
-	var step := _speed * delta
+	var step := speed * delta
 	var dist := position.distance_to(_last_target_pos)
 	if dist <= step:
 		position = _last_target_pos
@@ -56,4 +60,4 @@ func _impact() -> void:
 
 
 func _draw() -> void:
-	draw_circle(Vector2.ZERO, 4.0, _color)
+	draw_circle(Vector2.ZERO, radius, color)

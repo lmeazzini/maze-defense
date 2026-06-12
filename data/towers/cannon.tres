@@ -1,0 +1,45 @@
+[gd_resource type="Resource" script_class="TowerData" load_steps=7 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/tower_data.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/data/tower_level_data.gd" id="2"]
+[ext_resource type="PackedScene" path="res://scenes/projectiles/cannonball.tscn" id="3"]
+
+[sub_resource type="Resource" id="lvl1"]
+script = ExtResource("2")
+cost = 90
+damage = 20.0
+range_px = 144.0
+fire_rate = 0.5
+splash_radius = 72.0
+slow_factor = 1.0
+slow_duration = 0.0
+
+[sub_resource type="Resource" id="lvl2"]
+script = ExtResource("2")
+cost = 70
+damage = 32.0
+range_px = 152.0
+fire_rate = 0.6
+splash_radius = 84.0
+slow_factor = 1.0
+slow_duration = 0.0
+
+[sub_resource type="Resource" id="lvl3"]
+script = ExtResource("2")
+cost = 110
+damage = 50.0
+range_px = 168.0
+fire_rate = 0.7
+splash_radius = 96.0
+slow_factor = 1.0
+slow_duration = 0.0
+
+[resource]
+script = ExtResource("1")
+id = &"cannon"
+name_key = &"TOWER_CANNON"
+damage_type = 1
+targeting = 0
+projectile_scene = ExtResource("3")
+levels = Array[ExtResource("2")]([SubResource("lvl1"), SubResource("lvl2"), SubResource("lvl3")])
+placeholder_color = Color(0.25, 0.25, 0.28, 1)

@@ -1,0 +1,43 @@
+[gd_resource type="Resource" script_class="TowerData" load_steps=6 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/tower_data.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/data/tower_level_data.gd" id="2"]
+
+[sub_resource type="Resource" id="lvl1"]
+script = ExtResource("2")
+cost = 120
+damage = 45.0
+range_px = 320.0
+fire_rate = 0.4
+splash_radius = 0.0
+slow_factor = 1.0
+slow_duration = 0.0
+
+[sub_resource type="Resource" id="lvl2"]
+script = ExtResource("2")
+cost = 90
+damage = 75.0
+range_px = 352.0
+fire_rate = 0.45
+splash_radius = 0.0
+slow_factor = 1.0
+slow_duration = 0.0
+
+[sub_resource type="Resource" id="lvl3"]
+script = ExtResource("2")
+cost = 140
+damage = 120.0
+range_px = 384.0
+fire_rate = 0.5
+splash_radius = 0.0
+slow_factor = 1.0
+slow_duration = 0.0
+
+[resource]
+script = ExtResource("1")
+id = &"sniper"
+name_key = &"TOWER_SNIPER"
+damage_type = 0
+targeting = 1
+levels = Array[ExtResource("2")]([SubResource("lvl1"), SubResource("lvl2"), SubResource("lvl3")])
+placeholder_color = Color(0.65, 0.4, 0.85, 1)

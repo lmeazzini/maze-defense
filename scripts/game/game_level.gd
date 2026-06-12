@@ -5,10 +5,11 @@ extends Node2D
 
 const DEFAULT_MAP := preload("res://data/maps/map_01.tres")
 const RULES := preload("res://data/game_rules.tres")
-const ENEMY_SCENE := preload("res://scenes/enemies/enemy.tscn")
-const DEBUG_ENEMY := preload("res://data/enemies/normal.tres")
 const TOWER_CATALOG: Array[TowerData] = [
 	preload("res://data/towers/archer.tres"),
+	preload("res://data/towers/cannon.tres"),
+	preload("res://data/towers/ice.tres"),
+	preload("res://data/towers/sniper.tres"),
 ]
 
 ## Definido pela seleção de mapa antes da troca de cena (M5)
@@ -22,6 +23,7 @@ static var next_map: MapData
 @onready var _projectiles: Node2D = $Board/Projectiles
 @onready var _registry: EnemyRegistry = $EnemyRegistry
 @onready var _economy: Economy = $Economy
+@onready var _waves: WaveManager = $WaveManager
 @onready var _build: BuildController = $BuildController
 @onready var _hud: Hud = $UI/HUD
 @onready var _tower_panel: TowerPanel = $UI/TowerPanel
@@ -35,8 +37,9 @@ func _ready() -> void:
 	_grid.setup(_map)
 	_overlay.setup(_grid)
 	_economy.setup(_map, RULES)
+	_waves.setup(_map, _grid, _registry, _enemies, _economy, RULES)
 	_build.setup(_grid, _registry, _economy, _board, _towers, _projectiles, _overlay, TOWER_CATALOG)
-	_hud.setup(_build, _economy, TOWER_CATALOG)
+	_hud.setup(_build, _economy, _waves, TOWER_CATALOG)
 	_tower_panel.setup(_build, _economy)
 	_board.position = ((get_viewport_rect().size - _grid.grid_pixel_size()) * 0.5).floor()
 	GameEvents.game_over.connect(_on_game_over)
@@ -48,16 +51,9 @@ func _exit_tree() -> void:
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed(&"start_wave"):
-		# Spawner provisório do M2/M3 — substituído pelo WaveManager no M4
-		_spawn_debug_enemy()
-
-
-func _spawn_debug_enemy() -> void:
-	var enemy: Enemy = ENEMY_SCENE.instantiate()
-	_enemies.add_child(enemy)
-	enemy.setup(_grid, DEBUG_ENEMY)
-	enemy.start()
-	_registry.register(enemy)
+		_waves.call_next_wave()
+	elif event.is_action_pressed(&"cycle_speed"):
+		_hud.cycle_speed()
 
 
 func _on_game_over(won: bool) -> void:

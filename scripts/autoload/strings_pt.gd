@@ -8,6 +8,8 @@ const _TEXTS: Dictionary = {
 	&"UI_LIVES": "Vidas",
 	&"UI_WAVE": "Onda %d/%d",
 	&"UI_NEXT_WAVE": "Próxima onda",
+	&"UI_NEXT_WAVE_BONUS": "Próxima onda (+%d)",
+	&"UI_WAVES_DONE": "Última onda!",
 	&"UI_EARLY_BONUS": "+%d ouro",
 	&"UI_SPEED": "%dx",
 	&"UI_UPGRADE": "Melhorar (%d)",

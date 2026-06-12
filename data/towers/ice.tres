@@ -1,0 +1,43 @@
+[gd_resource type="Resource" script_class="TowerData" load_steps=6 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/tower_data.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/data/tower_level_data.gd" id="2"]
+
+[sub_resource type="Resource" id="lvl1"]
+script = ExtResource("2")
+cost = 70
+damage = 4.0
+range_px = 144.0
+fire_rate = 1.0
+splash_radius = 0.0
+slow_factor = 0.6
+slow_duration = 1.5
+
+[sub_resource type="Resource" id="lvl2"]
+script = ExtResource("2")
+cost = 55
+damage = 7.0
+range_px = 160.0
+fire_rate = 1.2
+splash_radius = 0.0
+slow_factor = 0.5
+slow_duration = 2.0
+
+[sub_resource type="Resource" id="lvl3"]
+script = ExtResource("2")
+cost = 85
+damage = 11.0
+range_px = 176.0
+fire_rate = 1.4
+splash_radius = 0.0
+slow_factor = 0.4
+slow_duration = 2.5
+
+[resource]
+script = ExtResource("1")
+id = &"ice"
+name_key = &"TOWER_ICE"
+damage_type = 2
+targeting = 0
+levels = Array[ExtResource("2")]([SubResource("lvl1"), SubResource("lvl2"), SubResource("lvl3")])
+placeholder_color = Color(0.35, 0.75, 0.95, 1)
