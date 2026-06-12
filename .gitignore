@@ -1,0 +1,18 @@
+# Godot 4
+.godot/
+*.translation
+export_presets.cfg
+export/
+
+# Imported assets cache (Godot 3 legacy, safe to keep)
+.import/
+
+# Builds
+*.exe
+*.pck
+*.x86_64
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
