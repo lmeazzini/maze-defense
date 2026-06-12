@@ -23,6 +23,13 @@ func _ready() -> void:
 	set_bus_volume(&"SFX", SaveManager.get_volume(&"SFX"))
 
 
+func _exit_tree() -> void:
+	# Solta o playback ativo — sem isso o stream da música "vaza" no
+	# relatório de recursos do encerramento do processo
+	_music_player.stop()
+	_music_player.stream = null
+
+
 func play_music(stream: AudioStream, loop: bool = true) -> void:
 	if _music_player.stream == stream and _music_player.playing:
 		return

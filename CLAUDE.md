@@ -30,6 +30,8 @@ GODOT=/mnt/c/Users/luis_/godot/Godot_v4.6.3-stable_win64_console.exe
 ```
 
 Gotchas learned the hard way:
+- At process exit, Godot reports `2 resources still in use` / `ObjectDB instances leaked` for the looping menu music (`AudioStreamOggVorbis`). This is a known upstream shutdown-ordering quirk with looping Ogg streams, not a real runtime leak — don't chase it. Grep boot output for `SCRIPT ERROR` instead of bare `error` to avoid false positives.
+- Scripts run via `-s` (like `tools/screenshot.gd`) compile BEFORE autoloads register: any static reference (preload chains, typed game classes) to scripts that use `GameEvents`/`AudioManager` fails to compile. Use untyped vars and `load()` at runtime inside such tools.
 - After creating new `class_name` scripts or addons, run `--import` before tests, or class names won't be registered.
 - Never copy an addon with `cp -r src/gut addons/` when `addons/` doesn't exist — it copies the *contents* to `addons/` root, causing UID duplicates. `mkdir -p addons` first.
 - The implementation plan (milestones M1-M6, decisões técnicas) is at `/home/luis_/.claude/plans/agora-planeje-detalhadamente-a-misty-snowglobe.md`.
