@@ -5,6 +5,7 @@ extends Node2D
 
 const DEFAULT_MAP := preload("res://data/maps/map_01.tres")
 const RULES := preload("res://data/game_rules.tres")
+const BATTLE_MUSIC := preload("res://assets/audio/music/battle.ogg")
 const TOWER_CATALOG: Array[TowerData] = [
 	preload("res://data/towers/archer.tres"),
 	preload("res://data/towers/cannon.tres"),
@@ -45,6 +46,7 @@ func _ready() -> void:
 	_tower_panel.setup(_build, _economy)
 	_board.position = ((get_viewport_rect().size - _grid.grid_pixel_size()) * 0.5).floor()
 	GameEvents.game_over.connect(_on_game_over)
+	AudioManager.play_music(BATTLE_MUSIC)
 
 
 func _exit_tree() -> void:

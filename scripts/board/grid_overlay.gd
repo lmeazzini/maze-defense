@@ -4,9 +4,12 @@ extends Node2D
 ## polyline do caminho e preview de construção (verde/vermelho).
 ## Tudo via _draw — placeholders até a arte do M6.
 
-const COLOR_GRID_LINE := Color(1.0, 1.0, 1.0, 0.08)
+const COLOR_GRID_LINE := Color(0.0, 0.0, 0.0, 0.10)
 const COLOR_FIXED := Color(0.35, 0.35, 0.35)
 const COLOR_TOWER_BLOCK := Color(0.97, 0.64, 0.12)
+
+const GROUND_TEXTURE := preload("res://assets/sprites/ground_grass.png")
+const OBSTACLE_TEXTURE := preload("res://assets/sprites/obstacle_bush.png")
 const COLOR_ENTRY := Color(0.2, 0.8, 0.3)
 const COLOR_EXIT := Color(0.9, 0.25, 0.2)
 const COLOR_PATH := Color(0.95, 0.9, 0.3, 0.9)
@@ -49,6 +52,11 @@ func _draw() -> void:
 	var cell := float(GridManager.CELL_SIZE)
 	var size_px := _grid.grid_pixel_size()
 
+	# Chão (grama) em toda a grade
+	for x in _grid.grid_size.x:
+		for y in _grid.grid_size.y:
+			draw_texture_rect(GROUND_TEXTURE, Rect2(Vector2(x, y) * cell, Vector2.ONE * cell), false)
+
 	for x in _grid.grid_size.x + 1:
 		draw_line(Vector2(x * cell, 0.0), Vector2(x * cell, size_px.y), COLOR_GRID_LINE)
 	for y in _grid.grid_size.y + 1:
@@ -58,9 +66,10 @@ func _draw() -> void:
 		for y in _grid.grid_size.y:
 			var c := Vector2i(x, y)
 			if _grid.is_fixed_obstacle(c):
-				_fill_cell(c, COLOR_FIXED)
-			elif _grid.is_solid(c):
-				_fill_cell(c, COLOR_TOWER_BLOCK)
+				draw_texture_rect(
+					OBSTACLE_TEXTURE, Rect2(Vector2(c) * cell, Vector2.ONE * cell), false
+				)
+			# Células sólidas restantes são torres — elas desenham a si mesmas
 
 	_fill_cell(_grid.entry_cell, COLOR_ENTRY)
 	_fill_cell(_grid.exit_cell, COLOR_EXIT)

@@ -21,6 +21,7 @@ var _path_index: int = 0
 var _slow_factor: float = 1.0
 var _slow_time_left: float = 0.0
 var _finished: bool = false
+var _facing: float = 0.0
 
 
 func _ready() -> void:
@@ -90,6 +91,8 @@ func _physics_process(delta: float) -> void:
 	while budget > 0.0 and _path_index < _path.size():
 		var target := _path[_path_index]
 		var dist := position.distance_to(target)
+		if dist > 0.01:
+			_facing = (target - position).angle()
 		if dist <= budget:
 			position = target
 			budget -= dist
@@ -129,7 +132,14 @@ func _adopt_path(points: PackedVector2Array) -> void:
 func _draw() -> void:
 	if data == null:
 		return
-	draw_circle(Vector2.ZERO, data.radius, data.placeholder_color)
+	if data.sprite != null:
+		var size := data.radius * 2.0 + 18.0
+		# Sprites do pack apontam para cima (-Y) → compensa com +PI/2
+		draw_set_transform(Vector2.ZERO, _facing + PI / 2.0, Vector2.ONE)
+		draw_texture_rect(data.sprite, Rect2(Vector2.ONE * (-size / 2.0), Vector2.ONE * size), false)
+		draw_set_transform(Vector2.ZERO, 0.0, Vector2.ONE)
+	else:
+		draw_circle(Vector2.ZERO, data.radius, data.placeholder_color)
 	if data.armor >= 0.5:
 		draw_arc(Vector2.ZERO, data.radius + 2.0, 0.0, TAU, 24, Color(0.6, 0.6, 0.65), 2.0)
 	if _slow_time_left > 0.0:

@@ -23,9 +23,11 @@ func _ready() -> void:
 	set_bus_volume(&"SFX", SaveManager.get_volume(&"SFX"))
 
 
-func play_music(stream: AudioStream) -> void:
+func play_music(stream: AudioStream, loop: bool = true) -> void:
 	if _music_player.stream == stream and _music_player.playing:
 		return
+	if stream is AudioStreamOggVorbis:
+		(stream as AudioStreamOggVorbis).loop = loop
 	_music_player.stream = stream
 	_music_player.play()
 

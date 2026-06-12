@@ -48,8 +48,12 @@ func _physics_process(delta: float) -> void:
 	queue_redraw()
 
 
+const SFX_EXPLOSION := preload("res://assets/audio/sfx/explosion.ogg")
+
+
 func _impact() -> void:
 	if _splash_radius > 0.0:
+		AudioManager.play_sfx(SFX_EXPLOSION)
 		# Dano em área: atinge todos no raio do ponto de impacto
 		var radius_sq := _splash_radius * _splash_radius
 		for enemy in _registry.alive.duplicate():

@@ -1,7 +1,10 @@
-[gd_resource type="Resource" script_class="TowerData" load_steps=6 format=3]
+[gd_resource type="Resource" script_class="TowerData" load_steps=9 format=3]
 
 [ext_resource type="Script" path="res://scripts/data/tower_data.gd" id="1"]
 [ext_resource type="Script" path="res://scripts/data/tower_level_data.gd" id="2"]
+[ext_resource type="Texture2D" path="res://assets/sprites/base_ice.png" id="3"]
+[ext_resource type="Texture2D" path="res://assets/sprites/turret_ice.png" id="4"]
+[ext_resource type="AudioStream" path="res://assets/audio/sfx/shoot_ice.ogg" id="5"]
 
 [sub_resource type="Resource" id="lvl1"]
 script = ExtResource("2")
@@ -12,6 +15,7 @@ fire_rate = 1.0
 splash_radius = 0.0
 slow_factor = 0.6
 slow_duration = 1.5
+sprite = ExtResource("4")
 
 [sub_resource type="Resource" id="lvl2"]
 script = ExtResource("2")
@@ -22,6 +26,7 @@ fire_rate = 1.2
 splash_radius = 0.0
 slow_factor = 0.5
 slow_duration = 2.0
+sprite = ExtResource("4")
 
 [sub_resource type="Resource" id="lvl3"]
 script = ExtResource("2")
@@ -32,6 +37,7 @@ fire_rate = 1.4
 splash_radius = 0.0
 slow_factor = 0.4
 slow_duration = 2.5
+sprite = ExtResource("4")
 
 [resource]
 script = ExtResource("1")
@@ -40,4 +46,6 @@ name_key = &"TOWER_ICE"
 damage_type = 2
 targeting = 0
 levels = Array[ExtResource("2")]([SubResource("lvl1"), SubResource("lvl2"), SubResource("lvl3")])
+base_sprite = ExtResource("3")
+shoot_sfx = ExtResource("5")
 placeholder_color = Color(0.35, 0.75, 0.95, 1)

@@ -33,6 +33,7 @@ const _TEXTS: Dictionary = {
 	&"UI_VICTORY": "Vitória!",
 	&"UI_DEFEAT": "Derrota",
 	&"UI_BEST_WAVE": "Melhor onda: %d",
+	&"UI_WAVES_COUNT": "%d ondas",
 	&"UI_MAP_SELECT": "Escolha o mapa",
 	&"UI_LOCKED": "Bloqueado",
 	&"MSG_BLOCKED": "Não pode bloquear o caminho!",

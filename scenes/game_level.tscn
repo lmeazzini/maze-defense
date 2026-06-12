@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3]
+[gd_scene load_steps=13 format=3]
 
 [ext_resource type="Script" path="res://scripts/game/game_level.gd" id="1"]
 [ext_resource type="Script" path="res://scripts/board/grid_manager.gd" id="2"]
@@ -11,6 +11,7 @@
 [ext_resource type="Script" path="res://scripts/game/wave_manager.gd" id="9"]
 [ext_resource type="PackedScene" path="res://scenes/ui/pause_menu.tscn" id="10"]
 [ext_resource type="PackedScene" path="res://scenes/ui/result_screen.tscn" id="11"]
+[ext_resource type="Script" path="res://scripts/game/sfx_director.gd" id="12"]
 
 [node name="GameLevel" type="Node2D"]
 script = ExtResource("1")
@@ -38,6 +39,9 @@ script = ExtResource("5")
 
 [node name="WaveManager" type="Node" parent="."]
 script = ExtResource("9")
+
+[node name="SfxDirector" type="Node" parent="."]
+script = ExtResource("12")
 
 [node name="BuildController" type="Node2D" parent="."]
 script = ExtResource("6")

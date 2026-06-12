@@ -41,7 +41,8 @@ func _make_card(map: MapData) -> PanelContainer:
 		var best := SaveManager.get_best_wave(map.id)
 		info.text = "★".repeat(stars) + "☆".repeat(3 - stars) + "\n" \
 			+ Strings.get_text(&"UI_BEST_WAVE") % best + "\n" \
-			+ "%d×%d — %d %s" % [map.grid_size.x, map.grid_size.y, map.waves.size(), "ondas"]
+			+ "%d×%d — " % [map.grid_size.x, map.grid_size.y] \
+			+ Strings.get_text(&"UI_WAVES_COUNT") % map.waves.size()
 	else:
 		info.text = "🔒 " + Strings.get_text(&"UI_LOCKED")
 	vbox.add_child(info)

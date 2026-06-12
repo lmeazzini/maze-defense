@@ -13,4 +13,6 @@ enum Targeting { FIRST_IN_PATH, STRONGEST }
 @export var projectile_scene: PackedScene
 @export var levels: Array[TowerLevelData] = []
 @export var shoot_sfx: AudioStream
+## Base fixa da torre; o cano (levels[].sprite) rotaciona por cima
+@export var base_sprite: Texture2D
 @export var placeholder_color: Color = Color.WHITE

@@ -103,10 +103,20 @@ func _draw() -> void:
 	if data == null:
 		return
 	var half := GridManager.CELL_SIZE * 0.5 - 6.0
-	draw_rect(Rect2(Vector2.ONE * -half, Vector2.ONE * half * 2.0), data.placeholder_color)
-	# Cano apontando para o último alvo
-	var barrel := Vector2.RIGHT.rotated(_aim_angle) * (half + 8.0)
-	draw_line(Vector2.ZERO, barrel, Color(0.1, 0.1, 0.1), 6.0)
+	if data.base_sprite != null:
+		var size := Vector2.ONE * GridManager.CELL_SIZE
+		draw_texture_rect(data.base_sprite, Rect2(size * -0.5, size), false)
+		var turret := stats().sprite
+		if turret != null:
+			# Sprites do pack apontam para cima (-Y) → compensa com +PI/2
+			draw_set_transform(Vector2.ZERO, _aim_angle + PI / 2.0, Vector2.ONE)
+			var tint := data.placeholder_color.lerp(Color.WHITE, 0.55)
+			draw_texture_rect(turret, Rect2(size * -0.5, size), false, tint)
+			draw_set_transform(Vector2.ZERO, 0.0, Vector2.ONE)
+	else:
+		draw_rect(Rect2(Vector2.ONE * -half, Vector2.ONE * half * 2.0), data.placeholder_color)
+		var barrel := Vector2.RIGHT.rotated(_aim_angle) * (half + 8.0)
+		draw_line(Vector2.ZERO, barrel, Color(0.1, 0.1, 0.1), 6.0)
 	# Pips de nível
 	for i in level:
 		draw_circle(Vector2(-half + 7.0 + i * 10.0, half - 7.0), 3.5, Color.WHITE)
