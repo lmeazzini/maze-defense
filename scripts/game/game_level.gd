@@ -5,6 +5,8 @@ extends Node2D
 ## (O input de construção migra para o BuildController no M3.)
 
 const DEFAULT_MAP := preload("res://data/maps/map_01.tres")
+const ENEMY_SCENE := preload("res://scenes/enemies/enemy.tscn")
+const DEBUG_ENEMY := preload("res://data/enemies/normal.tres")
 
 ## Definido pela seleção de mapa antes da troca de cena (M5)
 static var next_map: MapData
@@ -12,6 +14,8 @@ static var next_map: MapData
 @onready var _board: Node2D = $Board
 @onready var _grid: GridManager = $Board/GridManager
 @onready var _overlay: GridOverlay = $Board/GridOverlay
+@onready var _enemies: Node2D = $Board/Enemies
+@onready var _registry: EnemyRegistry = $EnemyRegistry
 
 var _map: MapData
 
@@ -34,6 +38,17 @@ func _unhandled_input(event: InputEvent) -> void:
 	elif event is InputEventMouseButton and event.pressed \
 			and (event as InputEventMouseButton).button_index == MOUSE_BUTTON_LEFT:
 		_handle_click()
+	elif event.is_action_pressed(&"start_wave"):
+		# Spawner provisório do M2 — substituído pelo WaveManager no M4
+		_spawn_debug_enemy()
+
+
+func _spawn_debug_enemy() -> void:
+	var enemy: Enemy = ENEMY_SCENE.instantiate()
+	_enemies.add_child(enemy)
+	enemy.setup(_grid, DEBUG_ENEMY)
+	enemy.start()
+	_registry.register(enemy)
 
 
 func _mouse_cell() -> Vector2i:
@@ -71,5 +86,4 @@ func _handle_click() -> void:
 
 
 func _enemy_cells() -> Array[Vector2i]:
-	# M2: virá do EnemyRegistry (célula atual + próxima de cada inimigo vivo)
-	return []
+	return _registry.occupied_cells()
