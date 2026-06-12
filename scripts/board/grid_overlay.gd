@@ -17,6 +17,7 @@ var _grid: GridManager
 var _hover_cell := Vector2i(-1, -1)
 var _hover_valid := false
 var _has_hover := false
+var _hover_range_px := 0.0
 
 
 func setup(grid: GridManager) -> void:
@@ -25,11 +26,12 @@ func setup(grid: GridManager) -> void:
 	queue_redraw()
 
 
-func set_hover(cell: Vector2i, valid: bool) -> void:
-	if _has_hover and cell == _hover_cell and valid == _hover_valid:
+func set_hover(cell: Vector2i, valid: bool, range_px: float = 0.0) -> void:
+	if _has_hover and cell == _hover_cell and valid == _hover_valid and range_px == _hover_range_px:
 		return
 	_hover_cell = cell
 	_hover_valid = valid
+	_hover_range_px = range_px
 	_has_hover = true
 	queue_redraw()
 
@@ -69,6 +71,10 @@ func _draw() -> void:
 
 	if _has_hover and _grid.is_inside(_hover_cell):
 		_fill_cell(_hover_cell, COLOR_PREVIEW_OK if _hover_valid else COLOR_PREVIEW_BAD)
+		if _hover_range_px > 0.0:
+			var center := _grid.cell_to_world(_hover_cell)
+			draw_arc(center, _hover_range_px, 0.0, TAU, 48, Color(1.0, 1.0, 1.0, 0.4), 2.0)
+			draw_circle(center, _hover_range_px, Color(1.0, 1.0, 1.0, 0.06))
 
 
 func _fill_cell(c: Vector2i, color: Color) -> void:

@@ -1,12 +1,15 @@
 class_name GameLevel
 extends Node2D
-## Orquestrador da partida. No M1: carrega o mapa, centraliza o tabuleiro e
-## permite colocar/remover blocos com preview — valida anti-bloqueio ao vivo.
-## (O input de construção migra para o BuildController no M3.)
+## Orquestrador da partida: carrega o mapa, injeta dependências nos sistemas
+## (grid, registry, economia, build controller, UI) e centraliza o tabuleiro.
 
 const DEFAULT_MAP := preload("res://data/maps/map_01.tres")
+const RULES := preload("res://data/game_rules.tres")
 const ENEMY_SCENE := preload("res://scenes/enemies/enemy.tscn")
 const DEBUG_ENEMY := preload("res://data/enemies/normal.tres")
+const TOWER_CATALOG: Array[TowerData] = [
+	preload("res://data/towers/archer.tres"),
+]
 
 ## Definido pela seleção de mapa antes da troca de cena (M5)
 static var next_map: MapData
@@ -14,8 +17,14 @@ static var next_map: MapData
 @onready var _board: Node2D = $Board
 @onready var _grid: GridManager = $Board/GridManager
 @onready var _overlay: GridOverlay = $Board/GridOverlay
+@onready var _towers: Node2D = $Board/Towers
 @onready var _enemies: Node2D = $Board/Enemies
+@onready var _projectiles: Node2D = $Board/Projectiles
 @onready var _registry: EnemyRegistry = $EnemyRegistry
+@onready var _economy: Economy = $Economy
+@onready var _build: BuildController = $BuildController
+@onready var _hud: Hud = $UI/HUD
+@onready var _tower_panel: TowerPanel = $UI/TowerPanel
 
 var _map: MapData
 
@@ -25,7 +34,12 @@ func _ready() -> void:
 	next_map = null
 	_grid.setup(_map)
 	_overlay.setup(_grid)
+	_economy.setup(_map, RULES)
+	_build.setup(_grid, _registry, _economy, _board, _towers, _projectiles, _overlay, TOWER_CATALOG)
+	_hud.setup(_build, _economy, TOWER_CATALOG)
+	_tower_panel.setup(_build, _economy)
 	_board.position = ((get_viewport_rect().size - _grid.grid_pixel_size()) * 0.5).floor()
+	GameEvents.game_over.connect(_on_game_over)
 
 
 func _exit_tree() -> void:
@@ -33,13 +47,8 @@ func _exit_tree() -> void:
 
 
 func _unhandled_input(event: InputEvent) -> void:
-	if event is InputEventMouseMotion:
-		_update_hover()
-	elif event is InputEventMouseButton and event.pressed \
-			and (event as InputEventMouseButton).button_index == MOUSE_BUTTON_LEFT:
-		_handle_click()
-	elif event.is_action_pressed(&"start_wave"):
-		# Spawner provisório do M2 — substituído pelo WaveManager no M4
+	if event.is_action_pressed(&"start_wave"):
+		# Spawner provisório do M2/M3 — substituído pelo WaveManager no M4
 		_spawn_debug_enemy()
 
 
@@ -51,39 +60,7 @@ func _spawn_debug_enemy() -> void:
 	_registry.register(enemy)
 
 
-func _mouse_cell() -> Vector2i:
-	return _grid.world_to_cell(_board.to_local(get_global_mouse_position()))
-
-
-func _update_hover() -> void:
-	var cell := _mouse_cell()
-	if not _grid.is_inside(cell):
-		_overlay.clear_hover()
-		return
-	if _grid.is_solid(cell) and not _grid.is_fixed_obstacle(cell):
-		# Bloco removível: hover "válido" sinaliza ação possível (remover)
-		_overlay.set_hover(cell, true)
-		return
-	var error := _grid.validate_placement(cell, _enemy_cells())
-	_overlay.set_hover(cell, error == GridManager.PlacementError.OK)
-
-
-func _handle_click() -> void:
-	var cell := _mouse_cell()
-	if not _grid.is_inside(cell):
-		return
-	if _grid.is_fixed_obstacle(cell):
-		return
-	if _grid.is_solid(cell):
-		_grid.remove_tower(cell)
-	else:
-		var error := _grid.validate_placement(cell, _enemy_cells())
-		if error == GridManager.PlacementError.OK:
-			_grid.commit_tower(cell)
-		else:
-			GameEvents.placement_rejected.emit(error)
-	_update_hover()
-
-
-func _enemy_cells() -> Array[Vector2i]:
-	return _registry.occupied_cells()
+func _on_game_over(won: bool) -> void:
+	# Telas de vitória/derrota chegam no M5
+	get_tree().paused = true
+	print("GAME OVER — venceu: %s" % won)

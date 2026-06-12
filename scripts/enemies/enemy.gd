@@ -52,6 +52,10 @@ func next_cell() -> Vector2i:
 	return current_cell()
 
 
+func is_alive() -> bool:
+	return not _finished
+
+
 func effective_speed() -> float:
 	return data.speed * (_slow_factor if _slow_time_left > 0.0 else 1.0)
 
