@@ -15,15 +15,24 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Commands
 
-Godot projects are run via the editor or CLI. From the project root (where `project.godot` lives):
+Godot 4.6.3 (Windows console build, runs fine from WSL) lives at:
+`/mnt/c/Users/luis_/godot/Godot_v4.6.3-stable_win64_console.exe`
+
+From the project root (where `project.godot` lives):
 
 ```bash
-godot --editor .          # open in editor
-godot .                   # run the game
-godot --headless --check-only --script path/to/script.gd   # syntax-check a script
+GODOT=/mnt/c/Users/luis_/godot/Godot_v4.6.3-stable_win64_console.exe
+"$GODOT" --headless --import --path . --quit       # import/validate resources; ALSO required after adding class_name scripts
+"$GODOT" --headless --path . --quit-after 10       # boot the game 10 frames, catches runtime errors
+"$GODOT" --headless --path . -s addons/gut/gut_cmdln.gd -gdir=res://tests/unit -gexit   # run unit tests (GUT)
+"$GODOT" --editor --path .                         # open editor (GUI, on the user's screen)
+"$GODOT" --path .                                  # run the game windowed
 ```
 
-Note: this is WSL2; the Godot editor is typically a Windows binary. If `godot` is not on PATH, ask the user where their Godot executable is rather than guessing.
+Gotchas learned the hard way:
+- After creating new `class_name` scripts or addons, run `--import` before tests, or class names won't be registered.
+- Never copy an addon with `cp -r src/gut addons/` when `addons/` doesn't exist — it copies the *contents* to `addons/` root, causing UID duplicates. `mkdir -p addons` first.
+- The implementation plan (milestones M1-M6, decisões técnicas) is at `/home/luis_/.claude/plans/agora-planeje-detalhadamente-a-misty-snowglobe.md`.
 
 ## Architecture (planned)
 
