@@ -68,6 +68,10 @@ func selected_tower() -> Tower:
 	return _selected
 
 
+func is_building() -> bool:
+	return _state == State.BUILDING
+
+
 func upgrade_selected() -> void:
 	if _selected == null or not _selected.can_upgrade():
 		return

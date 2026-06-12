@@ -27,6 +27,8 @@ static var next_map: MapData
 @onready var _build: BuildController = $BuildController
 @onready var _hud: Hud = $UI/HUD
 @onready var _tower_panel: TowerPanel = $UI/TowerPanel
+@onready var _pause_menu: PauseMenu = $UI/PauseMenu
+@onready var _result: ResultScreen = $UI/ResultScreen
 
 var _map: MapData
 
@@ -54,9 +56,31 @@ func _unhandled_input(event: InputEvent) -> void:
 		_waves.call_next_wave()
 	elif event.is_action_pressed(&"cycle_speed"):
 		_hud.cycle_speed()
+	elif event.is_action_pressed(&"pause"):
+		if _result.visible:
+			return
+		if _build.is_building():
+			_build.exit_build_mode()
+		else:
+			_pause_menu.toggle()
 
 
 func _on_game_over(won: bool) -> void:
-	# Telas de vitória/derrota chegam no M5
 	get_tree().paused = true
-	print("GAME OVER — venceu: %s" % won)
+	var stars := 0
+	if won:
+		if _economy.lives >= _map.starting_lives:
+			stars = 3
+		elif _economy.lives >= 10:
+			stars = 2
+		else:
+			stars = 1
+		SaveManager.record_result(_map.id, _waves.wave_index, stars)
+		var next := MapCatalog.next_after(_map.id)
+		if next != null:
+			SaveManager.unlock_map(next.id)
+	else:
+		# Derrota na onda N = venceu N-1 ondas
+		SaveManager.record_result(_map.id, maxi(_waves.wave_index - 1, 0), 0)
+	_result.show_result(won, _map, _waves.wave_index if won else _waves.wave_index - 1,
+		_waves.waves_total(), stars)

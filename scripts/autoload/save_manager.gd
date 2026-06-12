@@ -22,11 +22,16 @@ func load_profile() -> void:
 	if file == null:
 		push_warning("Falha ao abrir save: %s" % FileAccess.get_open_error())
 		return
-	var parsed: Variant = JSON.parse_string(file.get_as_text())
+	# JSON.new().parse retorna o erro sem poluir o log de engine (parse_string loga)
+	var json := JSON.new()
+	if json.parse(file.get_as_text()) != OK:
+		push_warning("Save corrompido — usando padrões.")
+		return
+	var parsed: Variant = json.data
 	if parsed is Dictionary and (parsed as Dictionary).get("version") == SCHEMA_VERSION:
 		_data = parsed
 	else:
-		push_warning("Save corrompido ou de versão desconhecida — usando padrões.")
+		push_warning("Save de versão desconhecida — usando padrões.")
 
 
 func is_unlocked(map_id: StringName) -> bool:

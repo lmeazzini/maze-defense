@@ -1,0 +1,390 @@
+[gd_resource type="Resource" script_class="MapData" load_steps=60 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/map_data.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/data/wave_data.gd" id="2"]
+[ext_resource type="Script" path="res://scripts/data/spawn_group_data.gd" id="3"]
+[ext_resource type="Resource" path="res://data/enemies/normal.tres" id="4"]
+[ext_resource type="Resource" path="res://data/enemies/fast.tres" id="5"]
+[ext_resource type="Resource" path="res://data/enemies/tank.tres" id="6"]
+[ext_resource type="Resource" path="res://data/enemies/armored.tres" id="7"]
+[ext_resource type="Resource" path="res://data/enemies/boss.tres" id="8"]
+
+[sub_resource type="Resource" id="g1_0"]
+script = ExtResource("3")
+enemy = ExtResource("4")
+count = 12
+spawn_interval = 0.8
+start_delay = 0.0
+hp_multiplier = 1.2
+
+[sub_resource type="Resource" id="w1"]
+script = ExtResource("2")
+groups = Array[ExtResource("3")]([SubResource("g1_0")])
+end_bonus_gold = 21
+prep_time = 30.0
+
+[sub_resource type="Resource" id="g2_0"]
+script = ExtResource("3")
+enemy = ExtResource("5")
+count = 10
+spawn_interval = 0.55
+start_delay = 0.0
+hp_multiplier = 1.1
+
+[sub_resource type="Resource" id="w2"]
+script = ExtResource("2")
+groups = Array[ExtResource("3")]([SubResource("g2_0")])
+end_bonus_gold = 24
+prep_time = 30.0
+
+[sub_resource type="Resource" id="g3_0"]
+script = ExtResource("3")
+enemy = ExtResource("4")
+count = 12
+spawn_interval = 0.7
+start_delay = 0.0
+hp_multiplier = 1.4
+
+[sub_resource type="Resource" id="g3_1"]
+script = ExtResource("3")
+enemy = ExtResource("5")
+count = 6
+spawn_interval = 0.5
+start_delay = 2.0
+hp_multiplier = 1.2
+
+[sub_resource type="Resource" id="w3"]
+script = ExtResource("2")
+groups = Array[ExtResource("3")]([SubResource("g3_0"), SubResource("g3_1")])
+end_bonus_gold = 27
+prep_time = 30.0
+
+[sub_resource type="Resource" id="g4_0"]
+script = ExtResource("3")
+enemy = ExtResource("7")
+count = 8
+spawn_interval = 1.0
+start_delay = 0.0
+hp_multiplier = 1.1
+
+[sub_resource type="Resource" id="w4"]
+script = ExtResource("2")
+groups = Array[ExtResource("3")]([SubResource("g4_0")])
+end_bonus_gold = 30
+prep_time = 30.0
+
+[sub_resource type="Resource" id="g5_0"]
+script = ExtResource("3")
+enemy = ExtResource("6")
+count = 8
+spawn_interval = 1.4
+start_delay = 0.0
+hp_multiplier = 1.2
+
+[sub_resource type="Resource" id="w5"]
+script = ExtResource("2")
+groups = Array[ExtResource("3")]([SubResource("g5_0")])
+end_bonus_gold = 33
+prep_time = 30.0
+
+[sub_resource type="Resource" id="g6_0"]
+script = ExtResource("3")
+enemy = ExtResource("5")
+count = 16
+spawn_interval = 0.45
+start_delay = 0.0
+hp_multiplier = 1.3
+
+[sub_resource type="Resource" id="w6"]
+script = ExtResource("2")
+groups = Array[ExtResource("3")]([SubResource("g6_0")])
+end_bonus_gold = 36
+prep_time = 30.0
+
+[sub_resource type="Resource" id="g7_0"]
+script = ExtResource("3")
+enemy = ExtResource("7")
+count = 10
+spawn_interval = 0.95
+start_delay = 0.0
+hp_multiplier = 1.3
+
+[sub_resource type="Resource" id="g7_1"]
+script = ExtResource("3")
+enemy = ExtResource("4")
+count = 10
+spawn_interval = 0.7
+start_delay = 2.0
+hp_multiplier = 1.6
+
+[sub_resource type="Resource" id="w7"]
+script = ExtResource("2")
+groups = Array[ExtResource("3")]([SubResource("g7_0"), SubResource("g7_1")])
+end_bonus_gold = 39
+prep_time = 30.0
+
+[sub_resource type="Resource" id="g8_0"]
+script = ExtResource("3")
+enemy = ExtResource("6")
+count = 8
+spawn_interval = 1.3
+start_delay = 0.0
+hp_multiplier = 1.5
+
+[sub_resource type="Resource" id="g8_1"]
+script = ExtResource("3")
+enemy = ExtResource("5")
+count = 10
+spawn_interval = 0.45
+start_delay = 2.0
+hp_multiplier = 1.4
+
+[sub_resource type="Resource" id="w8"]
+script = ExtResource("2")
+groups = Array[ExtResource("3")]([SubResource("g8_0"), SubResource("g8_1")])
+end_bonus_gold = 42
+prep_time = 30.0
+
+[sub_resource type="Resource" id="g9_0"]
+script = ExtResource("3")
+enemy = ExtResource("7")
+count = 14
+spawn_interval = 0.85
+start_delay = 0.0
+hp_multiplier = 1.4
+
+[sub_resource type="Resource" id="w9"]
+script = ExtResource("2")
+groups = Array[ExtResource("3")]([SubResource("g9_0")])
+end_bonus_gold = 45
+prep_time = 30.0
+
+[sub_resource type="Resource" id="g10_0"]
+script = ExtResource("3")
+enemy = ExtResource("8")
+count = 1
+spawn_interval = 1.0
+start_delay = 0.0
+hp_multiplier = 1.3
+
+[sub_resource type="Resource" id="g10_1"]
+script = ExtResource("3")
+enemy = ExtResource("4")
+count = 10
+spawn_interval = 0.7
+start_delay = 4.0
+hp_multiplier = 1.8
+
+[sub_resource type="Resource" id="w10"]
+script = ExtResource("2")
+groups = Array[ExtResource("3")]([SubResource("g10_0"), SubResource("g10_1")])
+end_bonus_gold = 80
+prep_time = 35.0
+
+[sub_resource type="Resource" id="g11_0"]
+script = ExtResource("3")
+enemy = ExtResource("5")
+count = 22
+spawn_interval = 0.4
+start_delay = 0.0
+hp_multiplier = 1.6
+
+[sub_resource type="Resource" id="w11"]
+script = ExtResource("2")
+groups = Array[ExtResource("3")]([SubResource("g11_0")])
+end_bonus_gold = 51
+prep_time = 30.0
+
+[sub_resource type="Resource" id="g12_0"]
+script = ExtResource("3")
+enemy = ExtResource("6")
+count = 12
+spawn_interval = 1.2
+start_delay = 0.0
+hp_multiplier = 1.7
+
+[sub_resource type="Resource" id="w12"]
+script = ExtResource("2")
+groups = Array[ExtResource("3")]([SubResource("g12_0")])
+end_bonus_gold = 54
+prep_time = 30.0
+
+[sub_resource type="Resource" id="g13_0"]
+script = ExtResource("3")
+enemy = ExtResource("7")
+count = 16
+spawn_interval = 0.8
+start_delay = 0.0
+hp_multiplier = 1.6
+
+[sub_resource type="Resource" id="g13_1"]
+script = ExtResource("3")
+enemy = ExtResource("5")
+count = 10
+spawn_interval = 0.45
+start_delay = 3.0
+hp_multiplier = 1.7
+
+[sub_resource type="Resource" id="w13"]
+script = ExtResource("2")
+groups = Array[ExtResource("3")]([SubResource("g13_0"), SubResource("g13_1")])
+end_bonus_gold = 57
+prep_time = 30.0
+
+[sub_resource type="Resource" id="g14_0"]
+script = ExtResource("3")
+enemy = ExtResource("4")
+count = 26
+spawn_interval = 0.5
+start_delay = 0.0
+hp_multiplier = 2.8
+
+[sub_resource type="Resource" id="g14_1"]
+script = ExtResource("3")
+enemy = ExtResource("6")
+count = 8
+spawn_interval = 1.25
+start_delay = 3.0
+hp_multiplier = 1.8
+
+[sub_resource type="Resource" id="w14"]
+script = ExtResource("2")
+groups = Array[ExtResource("3")]([SubResource("g14_0"), SubResource("g14_1")])
+end_bonus_gold = 60
+prep_time = 30.0
+
+[sub_resource type="Resource" id="g15_0"]
+script = ExtResource("3")
+enemy = ExtResource("7")
+count = 18
+spawn_interval = 0.75
+start_delay = 0.0
+hp_multiplier = 1.8
+
+[sub_resource type="Resource" id="w15"]
+script = ExtResource("2")
+groups = Array[ExtResource("3")]([SubResource("g15_0")])
+end_bonus_gold = 63
+prep_time = 30.0
+
+[sub_resource type="Resource" id="g16_0"]
+script = ExtResource("3")
+enemy = ExtResource("8")
+count = 2
+spawn_interval = 6.0
+start_delay = 0.0
+hp_multiplier = 1.5
+
+[sub_resource type="Resource" id="g16_1"]
+script = ExtResource("3")
+enemy = ExtResource("5")
+count = 14
+spawn_interval = 0.45
+start_delay = 5.0
+hp_multiplier = 1.9
+
+[sub_resource type="Resource" id="w16"]
+script = ExtResource("2")
+groups = Array[ExtResource("3")]([SubResource("g16_0"), SubResource("g16_1")])
+end_bonus_gold = 110
+prep_time = 35.0
+
+[sub_resource type="Resource" id="g17_0"]
+script = ExtResource("3")
+enemy = ExtResource("6")
+count = 14
+spawn_interval = 1.15
+start_delay = 0.0
+hp_multiplier = 2.0
+
+[sub_resource type="Resource" id="g17_1"]
+script = ExtResource("3")
+enemy = ExtResource("7")
+count = 12
+spawn_interval = 0.8
+start_delay = 3.0
+hp_multiplier = 1.9
+
+[sub_resource type="Resource" id="w17"]
+script = ExtResource("2")
+groups = Array[ExtResource("3")]([SubResource("g17_0"), SubResource("g17_1")])
+end_bonus_gold = 69
+prep_time = 30.0
+
+[sub_resource type="Resource" id="g18_0"]
+script = ExtResource("3")
+enemy = ExtResource("5")
+count = 28
+spawn_interval = 0.35
+start_delay = 0.0
+hp_multiplier = 2.0
+
+[sub_resource type="Resource" id="g18_1"]
+script = ExtResource("3")
+enemy = ExtResource("4")
+count = 16
+spawn_interval = 0.55
+start_delay = 4.0
+hp_multiplier = 3.2
+
+[sub_resource type="Resource" id="w18"]
+script = ExtResource("2")
+groups = Array[ExtResource("3")]([SubResource("g18_0"), SubResource("g18_1")])
+end_bonus_gold = 72
+prep_time = 30.0
+
+[sub_resource type="Resource" id="g19_0"]
+script = ExtResource("3")
+enemy = ExtResource("7")
+count = 20
+spawn_interval = 0.7
+start_delay = 0.0
+hp_multiplier = 2.1
+
+[sub_resource type="Resource" id="g19_1"]
+script = ExtResource("3")
+enemy = ExtResource("6")
+count = 12
+spawn_interval = 1.15
+start_delay = 4.0
+hp_multiplier = 2.2
+
+[sub_resource type="Resource" id="w19"]
+script = ExtResource("2")
+groups = Array[ExtResource("3")]([SubResource("g19_0"), SubResource("g19_1")])
+end_bonus_gold = 75
+prep_time = 30.0
+
+[sub_resource type="Resource" id="g20_0"]
+script = ExtResource("3")
+enemy = ExtResource("8")
+count = 3
+spawn_interval = 7.0
+start_delay = 0.0
+hp_multiplier = 1.7
+
+[sub_resource type="Resource" id="g20_1"]
+script = ExtResource("3")
+enemy = ExtResource("7")
+count = 12
+spawn_interval = 0.8
+start_delay = 6.0
+hp_multiplier = 2.2
+
+[sub_resource type="Resource" id="w20"]
+script = ExtResource("2")
+groups = Array[ExtResource("3")]([SubResource("g20_0"), SubResource("g20_1")])
+end_bonus_gold = 150
+prep_time = 40.0
+
+[resource]
+script = ExtResource("1")
+id = &"map_03"
+name_key = &"MAP_03"
+grid_size = Vector2i(18, 11)
+entry_cell = Vector2i(0, 1)
+exit_cell = Vector2i(17, 9)
+blocked_cells = Array[Vector2i]([Vector2i(5, 3), Vector2i(5, 4), Vector2i(5, 5), Vector2i(9, 6), Vector2i(9, 7), Vector2i(9, 8), Vector2i(13, 2), Vector2i(13, 3), Vector2i(3, 8), Vector2i(15, 6), Vector2i(11, 0), Vector2i(7, 10)])
+waves = Array[ExtResource("2")]([SubResource("w1"), SubResource("w2"), SubResource("w3"), SubResource("w4"), SubResource("w5"), SubResource("w6"), SubResource("w7"), SubResource("w8"), SubResource("w9"), SubResource("w10"), SubResource("w11"), SubResource("w12"), SubResource("w13"), SubResource("w14"), SubResource("w15"), SubResource("w16"), SubResource("w17"), SubResource("w18"), SubResource("w19"), SubResource("w20")])
+starting_gold = 260
+starting_lives = 20
