@@ -1,11 +1,14 @@
 class_name GridManager
-extends Node2D
+extends Node
 ## Fonte única da verdade da grade: A*, validação de construção (anti-bloqueio)
 ## e caminhos com cache por célula de origem.
 ##
-## Coordenadas: todas as posições retornadas são locais ao nó pai (Board).
+## Agnóstico de dimensão: a lógica trabalha em células (Vector2i). Cada camada
+## de apresentação (2D ou 3D) converte células→mundo com seu próprio helper.
+## Os caminhos são cacheados em células cruas; a conversão é por chamada.
 
-const CELL_SIZE := 64
+const CELL_SIZE := 64  # unidade do mundo 2D (px)
+const CELL_SIZE_3D := 1.0  # unidade do mundo 3D (no plano XZ, Y = altura)
 
 enum PlacementError {
 	OK,
@@ -22,7 +25,7 @@ var grid_size: Vector2i
 
 var _astar: AStarGrid2D
 var _fixed_obstacles: Dictionary = {}  # Set de Vector2i (chave → true)
-var _path_cache: Dictionary = {}  # Vector2i → PackedVector2Array
+var _path_cache: Dictionary = {}  # Vector2i → Array[Vector2i] (caminho em células)
 
 
 func setup(map: MapData) -> void:
@@ -49,6 +52,15 @@ func cell_to_world(cell: Vector2i) -> Vector2:
 
 func world_to_cell(pos: Vector2) -> Vector2i:
 	return Vector2i((pos / CELL_SIZE).floor())
+
+
+## Centro da célula no mundo 3D (plano XZ, Y = altura do tabuleiro).
+func cell_to_world_3d(cell: Vector2i, y: float = 0.0) -> Vector3:
+	return Vector3((cell.x + 0.5) * CELL_SIZE_3D, y, (cell.y + 0.5) * CELL_SIZE_3D)
+
+
+func world_to_cell_3d(pos: Vector3) -> Vector2i:
+	return Vector2i(int(floor(pos.x / CELL_SIZE_3D)), int(floor(pos.z / CELL_SIZE_3D)))
 
 
 func is_inside(cell: Vector2i) -> bool:
@@ -101,15 +113,32 @@ func remove_tower(cell: Vector2i) -> void:
 	GameEvents.grid_changed.emit()
 
 
-## Caminho (centros de célula, coords locais) de from_cell até a saída.
-## Cacheado por célula de origem; o cache é limpo a cada mutação da grade.
-func get_world_path(from_cell: Vector2i) -> PackedVector2Array:
+## Caminho em células de from_cell até a saída. Cacheado por célula de origem;
+## o cache é limpo a cada mutação da grade. As camadas de apresentação convertem
+## para coordenadas de mundo (2D ou 3D) por conta própria.
+func get_cell_path(from_cell: Vector2i) -> Array[Vector2i]:
 	if _path_cache.has(from_cell):
 		return _path_cache[from_cell]
-	var points := PackedVector2Array()
+	var cells: Array[Vector2i] = []
 	for cell: Vector2i in _astar.get_id_path(from_cell, exit_cell):
+		cells.append(cell)
+	_path_cache[from_cell] = cells
+	return cells
+
+
+## Caminho em coordenadas de mundo 2D (centros de célula).
+func get_world_path(from_cell: Vector2i) -> PackedVector2Array:
+	var points := PackedVector2Array()
+	for cell in get_cell_path(from_cell):
 		points.append(cell_to_world(cell))
-	_path_cache[from_cell] = points
+	return points
+
+
+## Caminho em coordenadas de mundo 3D (centros de célula no plano XZ).
+func get_world_path_3d(from_cell: Vector2i, y: float = 0.0) -> PackedVector3Array:
+	var points := PackedVector3Array()
+	for cell in get_cell_path(from_cell):
+		points.append(cell_to_world_3d(cell, y))
 	return points
 
 

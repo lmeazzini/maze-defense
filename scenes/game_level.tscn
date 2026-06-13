@@ -18,7 +18,7 @@ script = ExtResource("1")
 
 [node name="Board" type="Node2D" parent="."]
 
-[node name="GridManager" type="Node2D" parent="Board"]
+[node name="GridManager" type="Node" parent="Board"]
 script = ExtResource("2")
 
 [node name="GridOverlay" type="Node2D" parent="Board"]

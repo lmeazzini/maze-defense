@@ -1,0 +1,41 @@
+[gd_scene load_steps=6 format=3]
+
+[ext_resource type="Script" path="res://scripts/game/game_level_3d.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/board/grid_manager.gd" id="2"]
+[ext_resource type="Script" path="res://scripts/board/grid_view_3d.gd" id="3"]
+
+[sub_resource type="ProceduralSkyMaterial" id="sky_mat"]
+sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+
+[sub_resource type="Sky" id="sky"]
+sky_material = SubResource("sky_mat")
+
+[sub_resource type="Environment" id="env"]
+background_mode = 2
+sky = SubResource("sky")
+ambient_light_source = 3
+ambient_light_color = Color(0.6, 0.62, 0.66, 1)
+ambient_light_energy = 0.6
+tonemap_mode = 2
+
+[node name="GameLevel3D" type="Node3D"]
+script = ExtResource("1")
+
+[node name="GridManager" type="Node" parent="."]
+script = ExtResource("2")
+
+[node name="GridView3D" type="Node3D" parent="."]
+script = ExtResource("3")
+
+[node name="Enemies" type="Node3D" parent="."]
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 12, 14)
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.86, -0.35, 0.37, 0, 0.72, 0.69, -0.5, -0.6, 0.62, 0, 10, 0)
+shadow_enabled = true
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("env")
